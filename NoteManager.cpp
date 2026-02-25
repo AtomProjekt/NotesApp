@@ -19,8 +19,8 @@ const std::vector<Tag> TAGS = {
     {"Ideas",    FG_BYELLOW,  BG_YELLOW,  "💡"},
     {"Study",    FG_BMAGENTA, BG_MAGENTA, "📚"},
     {"Other",    FG_BCYAN,    BG_CYAN,    "📌"},
-    
-    // путь к папки где будут хранится заметки 
+
+// путь к папки где будут хранится заметки 
 const std::string DATA_DIR  = "notes_data";
 const std::string DATA_FILE = DATA_DIR + "/notes.dat";
 // тут функция для автоматического создания папки где буду хранится заметки 
@@ -95,3 +95,23 @@ int readKey() {
     return c;
 }
 #endif
+
+std::string lineInput(const std::string& prompt, int maxLen) {
+    std::cout << prompt;
+    std::string s;
+    while (true) {
+        int k = readKey(); // функция рид кей нужна для считывания клавиш 
+        if (k == KEY_ENTER) break; // при нажатии enter все завершится 
+        if (k == KEY_BACKSPACE) {
+            if (!s.empty()) { s.pop_back(); std::cout << "\b \b"; }
+        } else if (k >= 32 && k < 256) {
+            if ((int)s.size() < maxLen) {
+                s += (char)k;
+                std::cout << (char)k;
+                std::cout.flush();
+            }
+        }
+    }
+    std::cout << "\n";
+    return s;
+}

@@ -27,7 +27,7 @@ int main() {
                 int W = 44;
                 std::cout << "\n";
                 topLine(W, FG_BCYAN);
-                titleRow(W, std::string(BOLD) + FG_BCYAN + " 👋  Goodbye! ", FG_BCYAN); //прощание с пользователем 
+                titleRow(W, std::string(BOLD) + FG_BCYAN + " ❤︎ Goodbye! ", FG_BCYAN); //прощание с пользователем 
                 botLine(W, FG_BCYAN);
                 std::cout << "\n";
                 return 0; //завершение мейна 
