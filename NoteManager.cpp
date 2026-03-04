@@ -115,3 +115,36 @@ std::string lineInput(const std::string& prompt, int maxLen) {
     std::cout << "\n";
     return s;
 }
+void clearScreen() { system(CLEAR); }
+
+void topLine(int w, const std::string& clr) {
+    if (!clr.empty()) std::cout << clr;
+    std::cout << "╔";
+    for (int i = 0; i < w - 2; i++) std::cout << "═";
+    std::cout << "╗" << RESET << "\n";
+}
+
+void botLine(int w, const std::string& clr) {
+    if (!clr.empty()) std::cout << clr;
+    std::cout << "╚";
+    for (int i = 0; i < w - 2; i++) std::cout << "═";
+    std::cout << "╝" << RESET << "\n";
+}
+
+void midLine(int w, const std::string& clr) {
+    if (!clr.empty()) std::cout << clr;
+    std::cout << "╠";
+    for (int i = 0; i < w - 2; i++) std::cout << "═";
+    std::cout << "╣" << RESET << "\n";
+}
+
+static int visLen(const std::string& s) {
+    int len = 0;
+    bool esc = false;
+    for (char c : s) {
+        if (c == '\033') { esc = true; continue; }
+        if (esc)         { if (c == 'm') esc = false; continue; }
+        len++;
+    }
+    return len;
+}
