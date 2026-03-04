@@ -26,9 +26,6 @@
 #include <QDialogButtonBox>
 #include <QFormLayout>
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// NoteListItem
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 NoteListItem::NoteListItem(const Note &note, const Tag &tag, QWidget *parent)
     : QWidget(parent)
 {
@@ -138,9 +135,7 @@ void NoteListItem::updateData(const Note &note, const Tag &tag)
     ).arg(tag.color.name()));
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// NoteDialog
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 NoteDialog::NoteDialog(const QVector<Tag> &tags, QWidget *parent, const Note *existing)
     : QDialog(parent)
 {
@@ -344,9 +339,7 @@ QString NoteDialog::getContent() const { return contentEdit->toPlainText(); }
 int     NoteDialog::getTagIdx()  const { return tagCombo->currentIndex(); }
 bool    NoteDialog::getPinned()  const { return pinnedState; }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// MainWindow
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     initTags();
@@ -372,7 +365,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 MainWindow::~MainWindow() { saveNotes(); }
 
-// ── Теги ────────────────────────────────────────────────────────────────
+// Теги 
 void MainWindow::initTags()
 {
     tags = {
@@ -385,7 +378,7 @@ void MainWindow::initTags()
     };
 }
 
-// ── Построение UI ───────────────────────────────────────────────────────
+// Построение UI 
 void MainWindow::buildUI()
 {
     auto *central = new QWidget(this);
@@ -395,9 +388,9 @@ void MainWindow::buildUI()
     rootLayout->setContentsMargins(0, 0, 0, 0);
     rootLayout->setSpacing(0);
 
-    // ════════════════════════════════════════
+   
     // ЛЕВАЯ ПАНЕЛЬ (список заметок)
-    // ════════════════════════════════════════
+    
     leftPanel = new QWidget(central);
     leftPanel->setObjectName("leftPanel");
     leftPanel->setFixedWidth(300);
@@ -456,9 +449,8 @@ void MainWindow::buildUI()
     leftLayout->addWidget(searchWrap);
     leftLayout->addWidget(noteList, 1);
 
-    // ════════════════════════════════════════
     // ПРАВАЯ ПАНЕЛЬ (просмотр заметки)
-    // ════════════════════════════════════════
+ 
     rightPanel = new QWidget(central);
     rightPanel->setObjectName("rightPanel");
 
@@ -518,7 +510,7 @@ void MainWindow::buildUI()
     auto *stack = new QStackedWidget(rightPanel);
     stack->setObjectName("contentStack");
 
-    // — Пустое состояние
+    //  Пустое состояние
     emptyState = new QWidget(stack);
     auto *emptyLayout = new QVBoxLayout(emptyState);
     emptyLayout->setAlignment(Qt::AlignCenter);
@@ -541,7 +533,7 @@ void MainWindow::buildUI()
     emptyLayout->addSpacing(20);
     emptyLayout->addWidget(emptyHint, 0, Qt::AlignCenter);
 
-    // — Содержимое заметки (пузырь как в Telegram)
+    //  Содержимое заметки 
     contentScroll = new QScrollArea(stack);
     contentScroll->setObjectName("contentScroll");
     contentScroll->setWidgetResizable(true);
@@ -579,9 +571,8 @@ void MainWindow::buildUI()
     rightLayout->addWidget(topBar);
     rightLayout->addWidget(stack, 1);
 
-    // ════════════════════════════════════════
+  
     // Разделитель
-    // ════════════════════════════════════════
     auto *divider = new QFrame(central);
     divider->setObjectName("divider");
     divider->setFrameShape(QFrame::VLine);
@@ -592,7 +583,7 @@ void MainWindow::buildUI()
     rootLayout->addWidget(rightPanel, 1);
 }
 
-// ── Тема ────────────────────────────────────────────────────────────────
+// Тема 
 void MainWindow::applyTheme()
 {
     setStyleSheet(R"(
@@ -760,7 +751,7 @@ void MainWindow::applyTheme()
     )");
 }
 
-// ── Утилиты ─────────────────────────────────────────────────────────────
+//  Утилиты 
 QString MainWindow::currentTime() const
 {
     return QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm");
@@ -778,7 +769,7 @@ QColor MainWindow::tagColor(int idx) const
     return tags[idx].color;
 }
 
-// ── Обновление списка ────────────────────────────────────────────────────
+// Обновление списка 
 void MainWindow::refreshList(const QString &filter)
 {
     noteList->clear();
@@ -812,7 +803,7 @@ void MainWindow::refreshList(const QString &filter)
         showEmpty();
 }
 
-// ── Показать заметку ─────────────────────────────────────────────────────
+//  Показать заметку 
 void MainWindow::showNote(int index)
 {
     if (index < 0 || index >= notes.size()) { showEmpty(); return; }
@@ -877,7 +868,7 @@ void MainWindow::showEmpty()
     if (stack) stack->setCurrentWidget(emptyState);
 }
 
-// ── Слоты ───────────────────────────────────────────────────────────────
+//  Слоты 
 void MainWindow::onNoteSelected(int row)
 {
     if (row < 0) return;
@@ -981,7 +972,7 @@ void MainWindow::onContextMenu(const QPoint &pos)
     menu.exec(noteList->mapToGlobal(pos));
 }
 
-// ── Сохранение и загрузка ────────────────────────────────────────────────
+//  Сохранение и загрузка 
 void MainWindow::saveNotes()
 {
     QString dir  = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);

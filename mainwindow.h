@@ -19,7 +19,7 @@
 #include <QComboBox>
 #include <QDialog>
 
-// ─── Структура заметки ────────────────────────────────────────────────
+//  Структура заметки 
 struct Note {
     QString title;
     QString content;
@@ -29,14 +29,14 @@ struct Note {
     QString updatedAt;
 };
 
-// ─── Тег с цветом ─────────────────────────────────────────────────────
+//  Тег с цветом 
 struct Tag {
     QString name;
     QColor  color;
     QString emoji;
 };
 
-// ─── Кастомный элемент списка ─────────────────────────────────────────
+//  Кастомный элемент списка 
 class NoteListItem : public QWidget {
     Q_OBJECT
 public:
@@ -52,7 +52,7 @@ private:
     QLabel *tagBadge;
 };
 
-// ─── Диалог создания/редактирования заметки ────────────────────────────
+//  Диалог создания/редактирования заметки 
 class NoteDialog : public QDialog {
     Q_OBJECT
 public:
@@ -74,7 +74,7 @@ private:
     void applyStyles(const QVector<Tag> &tags);
 };
 
-// ─── Главное окно ─────────────────────────────────────────────────────
+//  Главное окно 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -92,18 +92,18 @@ private slots:
     void onContextMenu(const QPoint &pos);
 
 private:
-    // ── данные
+    //  данные
     QVector<Note> notes;
     QVector<Tag>  tags;
     int           currentIndex = -1;
 
-    // ── левая панель
+    // левая панель
     QWidget       *leftPanel;
     QLineEdit     *searchBar;
     QListWidget   *noteList;
     QPushButton   *newNoteBtn;
 
-    // ── правая панель
+    // правая панель
     QWidget       *rightPanel;
     QLabel        *chatTitle;
     QLabel        *chatSubtitle;
@@ -113,10 +113,10 @@ private:
     QLabel        *metaLabel;
     QWidget       *emptyState;
 
-    // ── топ-бар
+    // топ-бар
     QWidget       *topBar;
 
-    // ── методы
+    // методы
     void initTags();
     void buildUI();
     void applyTheme();
